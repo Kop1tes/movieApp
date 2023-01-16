@@ -70,113 +70,56 @@ form.addEventListener('submit', (e) => {
     search.value = '';
 })
 
-// // Modal
+// Modal
 
-// const modalEl = document.querySelector('.modal');
+const modalEl = document.querySelector('.modal');
 
-// async function openModal(id) {
-//     const resp = await fetch(API_URL_MOVIE_DETAILS + id, {
-//         headers: {
-//             "Content-tipe": "application/json",
-//             "X-API-KEY": API_KEY,
-//         },
-//     });
-//     const respData = await resp.json();
+async function openModal(id) {
+    const resp = await fetch(API_URL_MOVIE_DETAILS + id, {
+        headers: {
+            "Content-tipe": "application/json",
+            "X-API-KEY": API_KEY,
+        },
+    });
+    const respData = await resp.json();
     
-//     modalEl.classList.add('modal--show');
-//     document.body.classList.add('stop-scrolling');
+    modalEl.classList.add('modal--show');
+    document.body.classList.add('stop-scrolling');
 
-//     modalEl.innerHTML = `
-// <div class="modal__card">
-//     <img src="${respData.posterUrl}" alt="" class="modal__movie--backdrop">
-//     <h2>
-//         <span class="modal__movie--title">${respData.nameRu}</span>
-//         <span class="modal__movie--release"> - ${respData.year}</span>
-//     </h2>
-//     <ul class="modal__movie--info">
-//         <div class="loader"></div>
-//         <li class="modal__movie--genre">Жанр - ${respData.genres.map((el) => `<span>${el.genre}</span>`)}</li>
-//         ${respData.filmLength ? `<li class="modal__movie-runtime">Время - ${respData.filmLength} минут</li>` : ' '}
-//         <li>Сайт: <a href="${respData.webUrl}" class="modal__movie--site">${respData.webUrl}</a></li>
-//         <li class="modal__movie--overview">${respData.description}</li>
-//     </ul>
-//     <button type="button" class="modal__button--close">Закрыть</button>
-// </div>
-// `;
-//     const btnClose = document.querySelector('.modal__button--close');
-//     btnClose.addEventListener('click', () => closeModal())
-// }
+    modalEl.innerHTML = `
+<div class="modal__card">
+    <img src="${respData.posterUrl}" alt="" class="modal__movie--backdrop">
+    <h2>
+        <span class="modal__movie--title">${respData.nameRu}</span>
+        <span class="modal__movie--release"> - ${respData.year}</span>
+    </h2>
+    <ul class="modal__movie--info">
+        <div class="loader"></div>
+        <li class="modal__movie--genre">Жанр - ${respData.genres.map((el) => `<span>${el.genre}</span>`)}</li>
+        ${respData.filmLength ? `<li class="modal__movie-runtime">Время - ${respData.filmLength} минут</li>` : ' '}
+        <li>Сайт: <a href="${respData.webUrl}" class="modal__movie--site">${respData.webUrl}</a></li>
+        <li class="modal__movie--overview">${respData.description}</li>
+    </ul>
+    <button type="button" class="modal__button--close">Закрыть</button>
+</div>
+`;
+    const btnClose = document.querySelector('.modal__button--close');
+    btnClose.addEventListener('click', () => closeModal())
+}
 
-// function closeModal() { // добавляем функцию для закрытия модалки по кнопке
-//     modalEl.classList.remove('modal--show');
-//     document.body.classList.remove('stop-scrolling');
-// }
+function closeModal() { // добавляем функцию для закрытия модалки по кнопке
+    modalEl.classList.remove('modal--show');
+    document.body.classList.remove('stop-scrolling');
+}
 
-// window.addEventListener('click', (e) => { // добавляем закрытие модалки по клику рядом с ней
-//     if (e.target === modalEl) {
-//         closeModal();
-//     }
-// })
+window.addEventListener('click', (e) => { // добавляем закрытие модалки по клику рядом с ней
+    if (e.target === modalEl) {
+        closeModal();
+    }
+})
 
-// window.addEventListener('keydown', (e) => { // добавляем закрытие модалки по кнопке Esc
-//     if (e.keyCode === 27) {
-//         closeModal();
-//     }
-// })
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-(function($) { "use strict";
-
-	//Switch dark/light
-	
-	$(".switch").on('click', function () {
-		if ($("body").hasClass("light")) {
-			$("body").removeClass("light");
-			$(".switch").removeClass("switched");
-		}
-		else {
-			$("body").addClass("light");
-			$(".switch").addClass("switched");
-		}
-	});
-		
-	$(document).ready(function(){"use strict";
-	
-		//Scroll back to top
-		
-		var progressPath = document.querySelector('.progress-wrap path');
-		var pathLength = progressPath.getTotalLength();
-		progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
-		progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
-		progressPath.style.strokeDashoffset = pathLength;
-		progressPath.getBoundingClientRect();
-		progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
-		var updateProgress = function () {
-			var scroll = $(window).scrollTop();
-			var height = $(document).height() - $(window).height();
-			var progress = pathLength - (scroll * pathLength / height);
-			progressPath.style.strokeDashoffset = progress;
-		}
-		updateProgress();
-		$(window).scroll(updateProgress);	
-		var offset = 50;
-		var duration = 550;
-		jQuery(window).on('scroll', function() {
-			if (jQuery(this).scrollTop() > offset) {
-				jQuery('.progress-wrap').addClass('active-progress');
-			} else {
-				jQuery('.progress-wrap').removeClass('active-progress');
-			}
-		});				
-		jQuery('.progress-wrap').on('click', function(event) {
-			event.preventDefault();
-			jQuery('html, body').animate({scrollTop: 0}, duration);
-			return false;
-		})
-		
-		
-	});
-	
-})(jQuery); 
+window.addEventListener('keydown', (e) => { // добавляем закрытие модалки по кнопке Esc
+    if (e.keyCode === 27) {
+        closeModal();
+    }
+})
